@@ -1,6 +1,9 @@
-require_relative 'colors.rb'
-require_relative 'player.rb'
-require_relative 'game_board.rb'
-require_relative 'game.rb'
+# frozen_string_literal: true
 
-start_game = Game.new.play_game
+require_relative './lib/colors'
+require_relative './lib/player'
+require_relative './lib/game_board'
+require_relative './lib/game'
+
+game = Game.new
+game.play_game

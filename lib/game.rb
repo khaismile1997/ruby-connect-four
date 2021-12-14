@@ -1,6 +1,8 @@
-require_relative 'read_txt.rb'
-require_relative 'input.rb'
-require_relative 'display.rb'
+# frozen_string_literal: true
+
+require_relative 'read_txt'
+require_relative 'input'
+require_relative 'display'
 
 class Game
   include ReadTxt
@@ -11,7 +13,7 @@ class Game
 
   def initialize
     clear_screen
-    puts img_file("title.txt").green
+    puts img_file('title.txt').green
     puts introduce
   end
 
@@ -29,7 +31,6 @@ class Game
     game_setup
     @game_board = GameBoard.new
     next_turn until game_over?
-    clear_stdin
     puts @game_board
     puts game_over?
   end
@@ -44,7 +45,7 @@ class Game
     self.turn = 0
     clear_screen
   end
-  
+
   def next_turn
     clear_screen
     self.turn += 1
@@ -52,10 +53,11 @@ class Game
     col = input_number_in_range(msg_hash(@turn_name)[:turn], (0..6).to_a, @game_board.board)
     @game_board.update_board(col, @piece)
   end
-  
+
   def game_over?
     return msg_hash(@turn_name)[:win] if @game_board.check_win(@piece)
     return msg_hash[:draw] if @game_board.check_draw
+
     swap_turn if self.turn != 0
     false
   end
@@ -64,12 +66,8 @@ class Game
     @turn_name = @turn_name == @player1.name ? @player2.name : @player1.name
     @piece = @piece == @player1.piece ? @player2.piece : @player1.piece
   end
-  
+
   def continue?(msg)
     yes_no(msg) == 'y'
-  end
-
-  def clear_stdin
-    $stdin.getc while $stdin.ready?
   end
 end
